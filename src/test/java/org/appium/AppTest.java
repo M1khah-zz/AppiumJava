@@ -1,14 +1,14 @@
 package org.appium;
 
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.functions.ExpectedCondition;
 import io.appium.java_client.touch.offset.PointOption;
-import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.interactions.touch.TouchActions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -18,7 +18,6 @@ import org.testng.annotations.Test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -359,6 +358,273 @@ public class AppTest
         driver.quit();
     }
 
-    
+    @Test
+    @Description("Content by Intent test")
+    public void contentByIntentTest() throws MalformedURLException {
 
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+
+        capabilities.setCapability("deviceName", "Emulator");
+        capabilities.setCapability("platformName", "Android");
+        capabilities.setCapability("fullReset", true);
+        capabilities.setCapability("settings[enableMultiWindows]", true);
+        capabilities.setCapability("app", "/Users/kirill/Downloads/ApiDemos-debug.apk");
+        capabilities.setCapability("autoGrantPermissions", true);
+
+        AndroidDriver driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4724/wd/hub"), capabilities);
+        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+
+        MobileElement viewsElement = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Views"));
+        viewsElement.click();
+
+
+        new TouchAction(driver).press(PointOption.point(550, 800)).waitAction()
+                .moveTo(PointOption.point(550, 60)).release().perform();
+        new TouchAction(driver).press(PointOption.point(550, 800)).waitAction()
+                .moveTo(PointOption.point(550, 60)).release().perform();
+        new TouchAction(driver).press(PointOption.point(550, 800)).waitAction()
+                .moveTo(PointOption.point(550, 60)).release().perform();
+
+        MobileElement tabsElement = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Tabs"));
+        tabsElement.click();
+
+        MobileElement contentByIntent = (MobileElement) driver.findElement(MobileBy.AccessibilityId("3. Content By Intent"));
+        contentByIntent.click();
+
+        List<MobileElement> listElements = (List<MobileElement>) driver.findElements(MobileBy.className("android.widget.LinearLayout"));
+
+        List<MobileElement> screenTabs = (List<MobileElement>) driver.findElements(MobileBy.className("android.widget.TextView"));
+
+        MobileElement newPhotoButton = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/add"));
+        MobileElement clearPhotoButton = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/clear"));
+        MobileElement noPhotosElement = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/empty"));
+        MobileElement addedPhotoElement = (MobileElement) driver.findElement(MobileBy.className("android.widget.ImageView"));
+
+
+        screenTabs.get(0).click();
+        assertThat(listElements.get(0), is(notNullValue()));
+        screenTabs.get(1).click();
+        assertThat(noPhotosElement, is(notNullValue()));
+        newPhotoButton.click();
+        assertThat(addedPhotoElement, is(notNullValue()));
+        clearPhotoButton.click();
+        assertThat(noPhotosElement, is(notNullValue()));
+
+        driver.quit();
+    }
+
+    @Test
+    @Description("Picker test")
+    public void pickerTest() throws MalformedURLException {
+
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+
+        capabilities.setCapability("deviceName", "Emulator");
+        capabilities.setCapability("platformName", "Android");
+        capabilities.setCapability("fullReset", true);
+        capabilities.setCapability("settings[enableMultiWindows]", true);
+        capabilities.setCapability("app", "/Users/kirill/Downloads/ApiDemos-debug.apk");
+        capabilities.setCapability("autoGrantPermissions", true);
+
+        AndroidDriver driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4724/wd/hub"), capabilities);
+        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+
+        MobileElement viewsElement = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Views"));
+        viewsElement.click();
+
+
+        new TouchAction(driver).press(PointOption.point(550, 800)).waitAction()
+                .moveTo(PointOption.point(550, 60)).release().perform();
+        new TouchAction(driver).press(PointOption.point(550, 800)).waitAction()
+                .moveTo(PointOption.point(550, 60)).release().perform();
+
+        MobileElement pickerElement = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Picker"));
+        pickerElement.click();
+
+        new TouchAction(driver).press(PointOption.point(550, 500)).waitAction()
+                .moveTo(PointOption.point(550, 800)).release().perform();
+
+        MobileElement selectedValue = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/textView1"));
+        String selectedValueText = selectedValue.getText();
+
+        assertThat(selectedValueText, equalTo("Value: kupima"));
+
+        driver.quit();
+    }
+
+    @Test
+    @Description("PopupMenu test")
+    public void popupMenu() throws MalformedURLException {
+
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+
+        capabilities.setCapability("deviceName", "Emulator");
+        capabilities.setCapability("platformName", "Android");
+        capabilities.setCapability("fullReset", true);
+        capabilities.setCapability("settings[enableMultiWindows]", true);
+        capabilities.setCapability("app", "/Users/kirill/Downloads/ApiDemos-debug.apk");
+        capabilities.setCapability("autoGrantPermissions", true);
+
+        AndroidDriver driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4724/wd/hub"), capabilities);
+        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+
+        MobileElement viewsElement = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Views"));
+        viewsElement.click();
+
+        new TouchAction(driver).press(PointOption.point(550, 800)).waitAction()
+                .moveTo(PointOption.point(550, 60)).release().perform();
+        new TouchAction(driver).press(PointOption.point(550, 800)).waitAction()
+                .moveTo(PointOption.point(550, 60)).release().perform();
+
+        MobileElement popupMenuElement = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Popup Menu"));
+        popupMenuElement.click();
+
+        MobileElement makePopupButton = (MobileElement) driver.findElement(MobileBy.className("android.widget.Button"));
+        MobileElement toastMessage = (MobileElement) driver.findElement(MobileBy.className("android.widget.Toast"));
+        List<MobileElement> widgetOptions = (List<MobileElement>) driver.findElements(MobileBy.className("android.widget.TextView"));
+        String toastText = toastMessage.getText();
+
+        makePopupButton.click();
+        widgetOptions.get(0).click();
+        assertThat(toastText, containsString("Search"));
+
+        driver.quit();
+    }
+
+    @Test
+    @Description("Radio button test")
+    public void radioButtonTest() throws MalformedURLException {
+
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+
+        capabilities.setCapability("deviceName", "Emulator");
+        capabilities.setCapability("platformName", "Android");
+        capabilities.setCapability("fullReset", true);
+        capabilities.setCapability("settings[enableMultiWindows]", true);
+        capabilities.setCapability("app", "/Users/kirill/Downloads/ApiDemos-debug.apk");
+        capabilities.setCapability("autoGrantPermissions", true);
+
+        AndroidDriver driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4724/wd/hub"), capabilities);
+        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+
+        MobileElement viewsElement = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Views"));
+        viewsElement.click();
+
+        new TouchAction(driver).press(PointOption.point(550, 800)).waitAction()
+                .moveTo(PointOption.point(550, 60)).release().perform();
+        new TouchAction(driver).press(PointOption.point(550, 800)).waitAction()
+                .moveTo(PointOption.point(550, 60)).release().perform();
+        new TouchAction(driver).press(PointOption.point(550, 800)).waitAction()
+                .moveTo(PointOption.point(550, 60)).release().perform();
+
+
+        MobileElement radioGroupElement = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Radio Group"));
+        radioGroupElement.click();
+
+        MobileElement allButton = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/all"));
+        MobileElement selectedResult = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/choice"));
+        MobileElement clearAllButton = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/clear"));
+
+        allButton.click();
+        String resultTextBefore = selectedResult.getText();
+        clearAllButton.click();
+        String resultTextAfter = selectedResult.getText();
+        assertThat(resultTextBefore, is(not(resultTextAfter)));
+
+        driver.quit();
+    }
+
+    @Test
+    @Description("Rotating button test")
+    public void rotatingButtonTest() throws MalformedURLException {
+
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+
+        capabilities.setCapability("deviceName", "Emulator");
+        capabilities.setCapability("platformName", "Android");
+        capabilities.setCapability("fullReset", true);
+        capabilities.setCapability("settings[enableMultiWindows]", true);
+        capabilities.setCapability("app", "/Users/kirill/Downloads/ApiDemos-debug.apk");
+        capabilities.setCapability("autoGrantPermissions", true);
+
+        AndroidDriver driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4724/wd/hub"), capabilities);
+        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+
+        MobileElement viewsElement = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Views"));
+        viewsElement.click();
+
+        new TouchAction(driver).press(PointOption.point(550, 800)).waitAction()
+                .moveTo(PointOption.point(550, 60)).release().perform();
+        new TouchAction(driver).press(PointOption.point(550, 800)).waitAction()
+                .moveTo(PointOption.point(550, 60)).release().perform();
+        new TouchAction(driver).press(PointOption.point(550, 800)).waitAction()
+                .moveTo(PointOption.point(550, 60)).release().perform();
+
+
+        MobileElement radioGroupElement = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Rotating Button"));
+        radioGroupElement.click();
+
+        MobileElement rotatingButton = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/rotatingButton"));
+        MobileElement translationXBar = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/translationX"));
+        MobileElement scaleYBar = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/scaleY"));
+        MobileElement rotationZBar = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/rotationZ"));
+
+        Point locationBefore = rotatingButton.getLocation();
+        Dimension sizeBefore = rotatingButton.getSize();
+        Rectangle rectBefore = rotatingButton.getRect();
+        translationXBar.sendKeys("200");
+        scaleYBar.sendKeys("200");
+        rotationZBar.sendKeys("200");
+        Point locationAfter = rotatingButton.getLocation();
+        Dimension sizeAfter = rotatingButton.getSize();
+        Rectangle rectAfter = rotatingButton.getRect();
+
+        assertThat(locationAfter, is(not(equalTo(locationBefore))));
+        assertThat(sizeAfter, is(not(equalTo(sizeBefore))));
+        assertThat(rectAfter, is(not(equalTo(rectBefore))));
+
+        driver.quit();
+    }
+
+    @Test
+    @Description("Text clock test")
+    public void textClockTest() throws MalformedURLException {
+
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+
+        capabilities.setCapability("deviceName", "Emulator");
+        capabilities.setCapability("platformName", "Android");
+        capabilities.setCapability("fullReset", true);
+        capabilities.setCapability("settings[enableMultiWindows]", true);
+        capabilities.setCapability("app", "/Users/kirill/Downloads/ApiDemos-debug.apk");
+        capabilities.setCapability("autoGrantPermissions", true);
+
+        AndroidDriver driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4724/wd/hub"), capabilities);
+        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+
+        MobileElement viewsElement = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Views"));
+        viewsElement.click();
+
+        new TouchAction(driver).press(PointOption.point(550, 800)).waitAction()
+                .moveTo(PointOption.point(550, 60)).release().perform();
+        new TouchAction(driver).press(PointOption.point(550, 800)).waitAction()
+                .moveTo(PointOption.point(550, 60)).release().perform();
+        new TouchAction(driver).press(PointOption.point(550, 800)).waitAction()
+                .moveTo(PointOption.point(550, 60)).release().perform();
+        new TouchAction(driver).press(PointOption.point(550, 800)).waitAction()
+                .moveTo(PointOption.point(550, 60)).release().perform();
+
+
+        MobileElement textClockElement = (MobileElement) driver.findElement(MobileBy.AccessibilityId("TextClock"));
+        textClockElement.click();
+
+        List<MobileElement> timeStrings = (List<MobileElement>) driver.findElements(MobileBy.className("android.widget.TextView"));
+
+
+
+
+
+
+        driver.quit();
+    }
 }
