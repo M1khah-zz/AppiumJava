@@ -58,7 +58,7 @@ public class AppTest
 
         MobileElement alertMessageElement = (MobileElement) driver.findElement(MobileBy.id("android:id/alertTitle"));
         String alertMessageText = alertMessageElement.getText();
-        String correctMessageText = "Lorem ipsum dolor sit aie consectetur adipiscingnn";
+        String correctMessageText = "Lorem ipsum dolor sit aie consectetur adipiscing";
 
         assertThat(alertMessageText, containsString(correctMessageText));
 
@@ -97,7 +97,7 @@ public class AppTest
         action.longPress(longPressButton);
         action.perform();
 
-        List<MobileElement> contextMenus = (List<MobileElement>) driver.findElementsByClassName("android.widget.TextView");
+        List<MobileElement> contextMenus = (List<MobileElement>) driver.findElements(MobileBy.className("android.widget.TextView"));
         contextMenus.get(0).click();
         String successToastText = driver.findElementByAccessibilityId("\tandroid.widget.Toast").getText();
         String validSuccessToastText = "Item 1a was chosen";
@@ -174,14 +174,20 @@ public class AppTest
         MobileElement hideFrag1Button = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/frag1hide"));
         MobileElement hideFrag2Button = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/frag2hide"));
 
+
+
         hideFrag1Button.click();
-        assertThat(fragment1, is(null));
+        boolean frag1isDisplayed = fragment1.isDisplayed();
+        assertThat(frag1isDisplayed, is(false));
         hideFrag2Button.click();
-        assertThat(fragment2, is(nullValue()));
+        boolean frag2isDisplayed = fragment2.isDisplayed();
+        assertThat(frag2isDisplayed, is(false));
         hideFrag1Button.click();
-        assertThat(fragment1, is(notNullValue()));
+        boolean frag1isDisplayedNew = fragment1.isDisplayed();
+        assertThat(frag1isDisplayedNew, is(true));
         hideFrag2Button.click();
-        assertThat(fragment2, is(notNullValue()));
+        boolean frag2isDisplayedNew = fragment2.isDisplayed();
+        assertThat(frag2isDisplayedNew, is(true));
 
         driver.quit();
     }
@@ -340,7 +346,7 @@ public class AppTest
         MobileElement viewsElement = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Views"));
         viewsElement.click();
 
-        new TouchAction(driver).press(PointOption.point(550, 640)).waitAction()
+        new TouchAction(driver).press(PointOption.point(550, 700)).waitAction()
                 .moveTo(PointOption.point(550, 60)).release().perform();
 
         MobileElement layoutAnimationElement = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Layout Animation"));
@@ -668,8 +674,6 @@ public class AppTest
         changeDateButton.click();
         MobileElement yearPickerButton = (MobileElement) driver.findElement(MobileBy.id("android:id/date_picker_header_year"));
         yearPickerButton.click();
-//        new TouchAction(driver).press(PointOption.point(550, 800)).waitAction()
-//                .moveTo(PointOption.point(550, 60)).release().perform();
         List<MobileElement> textViews = (List<MobileElement>) driver. findElements(MobileBy.className("android.widget.TextView"));
         textViews.get(5).click();
         MobileElement nextMonthButton = (MobileElement) driver.findElement(MobileBy.id("android:id/next"));
@@ -679,14 +683,12 @@ public class AppTest
         MobileElement okButtonInPicker = (MobileElement) driver.findElement(MobileBy.id("android:id/button1"));
         okButtonInPicker.click();
 
-//        MobileElement selectDayButton = (MobileElement) driver.findElement(MobileBy.className("android.view.View"));
-
 
         MobileElement changeTimeButton = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/pickTime"));
         List<MobileElement> radialPicker = (List<MobileElement>) driver
                 .findElements(MobileBy.className("android.widget.RadialTimePickerView$RadialPickerTouchHelper"));
         MobileElement changeTimeButtonSpinner = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/pickTimeSpinner"));
-        
+
         driver.quit();
     }
 }
