@@ -18,7 +18,10 @@ import org.testng.annotations.Test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -619,6 +622,21 @@ public class AppTest
         textClockElement.click();
 
         List<MobileElement> timeStrings = (List<MobileElement>) driver.findElements(MobileBy.className("android.widget.TextView"));
+        String HHMMFormat = timeStrings.get(2).getText();
+        String mmDDYYFormat = timeStrings.get(3).getText();
+        String mmDDYYHHMMFormat = timeStrings.get(4).getText();
+        String hhMMSSFormat = timeStrings.get(5).getText();
+
+        SimpleDateFormat HHMM = new SimpleDateFormat("h:mm a");
+        SimpleDateFormat mmDDYY = new SimpleDateFormat("MMM dd, yyyy", Locale.US);
+        SimpleDateFormat mmDDYYHHMM = new SimpleDateFormat("MM/dd/yy hmma");
+        SimpleDateFormat hhMMSS = new SimpleDateFormat("hh:mm:ss a");
+
+
+        assertThat(HHMMFormat, equalTo(HHMM.format(new Date())));
+        assertThat(mmDDYYFormat, equalTo(mmDDYY.format(new Date())));
+        assertThat(mmDDYYHHMMFormat, equalTo(mmDDYYHHMM.format(new Date())));
+        assertThat(hhMMSSFormat,equalTo(hhMMSS.format(new Date())));
 
 
 
