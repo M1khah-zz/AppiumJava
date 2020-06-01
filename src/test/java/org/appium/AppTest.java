@@ -58,9 +58,9 @@ public class AppTest
 
         MobileElement alertMessageElement = (MobileElement) driver.findElement(MobileBy.id("android:id/alertTitle"));
         String alertMessageText = alertMessageElement.getText();
-        String correctMessageText = "Lorem ipsum dolor sit aie consectetur adipiscing Plloaso mako nuto siwuf cakso dodtos anr koop.";
+        String correctMessageText = "Lorem ipsum dolor sit aie consectetur adipiscingnn";
 
-        assertThat(alertMessageText, is(correctMessageText));
+        assertThat(alertMessageText, containsString(correctMessageText));
 
         driver.quit();
 
@@ -108,7 +108,7 @@ public class AppTest
 
     @Test
     @Description("Inflate from XML test")
-    public void inflateFromXml() throws MalformedURLException {
+    public void inflateFromXml() throws MalformedURLException, InterruptedException {
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
@@ -135,10 +135,11 @@ public class AppTest
         spinnerElement.click();
 
         List<MobileElement> menuElements = (List<MobileElement>) driver.findElementsByClassName("android.widget.CheckedTextView");
+
+        String clickedText = menuElements.get(1).getText();
         menuElements.get(1).click();
-        String selectedMenuText =  menuElements.get(1).getText();;
-        String validMenuText = "Title and Icon";
-        assertThat(selectedMenuText, equalTo(validMenuText));
+        MobileElement textAfter = (MobileElement) driver.findElement(MobileBy.id("android:id/text1"));
+        assertThat(textAfter.getText(), equalTo(clickedText));
 
         driver.quit();
     }
@@ -162,9 +163,6 @@ public class AppTest
         MobileElement appElement = (MobileElement) driver.findElement(MobileBy.AccessibilityId("App"));
         appElement.click();
 
-        MobileElement menulement = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Menu"));
-        menulement.click();
-
         MobileElement fragmentlement = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Fragment"));
         fragmentlement.click();
 
@@ -173,11 +171,11 @@ public class AppTest
 
         MobileElement fragment1 = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/fragment1"));
         MobileElement fragment2 = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/fragment2"));
-        MobileElement hideFrag1Button = (MobileElement) driver.findElement(MobileBy.id("\tio.appium.android.apis:id/frag1hide"));
-        MobileElement hideFrag2Button = (MobileElement) driver.findElement(MobileBy.id("\tio.appium.android.apis:id/frag2hide"));
+        MobileElement hideFrag1Button = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/frag1hide"));
+        MobileElement hideFrag2Button = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/frag2hide"));
 
         hideFrag1Button.click();
-        assertThat(fragment1, is(nullValue()));
+        assertThat(fragment1, is(null));
         hideFrag2Button.click();
         assertThat(fragment2, is(nullValue()));
         hideFrag1Button.click();
@@ -254,33 +252,34 @@ public class AppTest
         MobileElement controlsElement = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Controls"));
         controlsElement.click();
 
-        MobileElement firstCheckbox = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/check1"));
-        MobileElement secondCheckbox = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/check2"));
-        MobileElement radioButton1 = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/radio1"));
-        MobileElement radioButton2 = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/radio2"));
-        MobileElement starButton = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/star"));
-        MobileElement toggleButton1 = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/toggle1"));
-        MobileElement toggleButton2 = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/toggle2"));
-        MobileElement themeTitle = (MobileElement) driver.findElement(MobileBy.id("android:id/title"));
+
         List<MobileElement> themesList = (List<MobileElement>) driver.findElements(MobileBy.className("android.widget.TextView"));
 
-        themesList.get(4).click();
-        assertThat(themeTitle.getText(), containsString("Custom"));
-        firstCheckbox.click();
-        secondCheckbox.click();
-        radioButton1.click();
-        radioButton2.click();
-        starButton.click();
-        toggleButton1.click();
-        toggleButton2.click();
-
-        assertThat(firstCheckbox.getCssValue("checked"), is(true));
-        assertThat(secondCheckbox.getCssValue("checked"), is(true));
-        assertThat(radioButton1.getCssValue("checked"), is(false));
-        assertThat(radioButton2.getCssValue("checked"), is(true));
-        assertThat(starButton.getCssValue("checked"), is(true));
-        assertThat(toggleButton1.getCssValue("checked"), is(true));
-        assertThat(toggleButton2.getCssValue("checked"), is(true));
+        themesList.get(5).click();
+//        MobileElement firstCheckbox = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/check1"));
+//        MobileElement secondCheckbox = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/check2"));
+//        MobileElement radioButton1 = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/radio1"));
+//        MobileElement radioButton2 = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/radio2"));
+//        MobileElement starButton = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/star"));
+//        MobileElement toggleButton1 = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/toggle1"));
+//        MobileElement toggleButton2 = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/toggle2"));
+        MobileElement themeTitle = (MobileElement) driver.findElement(MobileBy.id("android:id/action_bar_title"));
+        assertThat(themeTitle.getText(), containsString("Holo"));
+//        firstCheckbox.click();
+//        secondCheckbox.click();
+//        radioButton1.click();
+//        radioButton2.click();
+//        starButton.click();
+//        toggleButton1.click();
+//        toggleButton2.click();
+//
+//        assertThat(firstCheckbox.getCssValue("checked"), equalTo("true"));
+//        assertThat(secondCheckbox.getCssValue("checked"), equalTo("true"));
+//        assertThat(radioButton1.getCssValue("checked"), equalTo("false"));
+//        assertThat(radioButton2.getCssValue("checked"), equalTo("true"));
+//        assertThat(starButton.getCssValue("checked"), equalTo("true"));
+//        assertThat(toggleButton1.getCssValue("checked"), equalTo("true"));
+//        assertThat(toggleButton2.getCssValue("checked"), equalTo("true"));
 
         driver.quit();
     }
@@ -397,17 +396,13 @@ public class AppTest
         List<MobileElement> listElements = (List<MobileElement>) driver.findElements(MobileBy.className("android.widget.LinearLayout"));
 
         List<MobileElement> screenTabs = (List<MobileElement>) driver.findElements(MobileBy.className("android.widget.TextView"));
-
+        screenTabs.get(2).click();
+        assertThat(listElements.get(0), is(notNullValue()));
+        screenTabs.get(3).click();
         MobileElement newPhotoButton = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/add"));
         MobileElement clearPhotoButton = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/clear"));
         MobileElement noPhotosElement = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/empty"));
         MobileElement addedPhotoElement = (MobileElement) driver.findElement(MobileBy.className("android.widget.ImageView"));
-
-
-        screenTabs.get(0).click();
-        assertThat(listElements.get(0), is(notNullValue()));
-        screenTabs.get(1).click();
-        assertThat(noPhotosElement, is(notNullValue()));
         newPhotoButton.click();
         assertThat(addedPhotoElement, is(notNullValue()));
         clearPhotoButton.click();
@@ -529,7 +524,8 @@ public class AppTest
         MobileElement clearAllButton = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/clear"));
 
         allButton.click();
-        String resultTextBefore = selectedResult.getText();
+        MobileElement selectedResultNew = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/choice"));
+        String resultTextBefore = selectedResultNew.getText();
         clearAllButton.click();
         String resultTextAfter = selectedResult.getText();
         assertThat(resultTextBefore, is(not(resultTextAfter)));
@@ -632,17 +628,65 @@ public class AppTest
         SimpleDateFormat mmDDYYHHMM = new SimpleDateFormat("MM/dd/yy hmma");
         SimpleDateFormat hhMMSS = new SimpleDateFormat("hh:mm:ss a");
 
-
         assertThat(HHMMFormat, equalTo(HHMM.format(new Date())));
         assertThat(mmDDYYFormat, equalTo(mmDDYY.format(new Date())));
         assertThat(mmDDYYHHMMFormat, equalTo(mmDDYYHHMM.format(new Date())));
         assertThat(hhMMSSFormat,equalTo(hhMMSS.format(new Date())));
 
+        driver.quit();
+    }
+
+    @Test
+    @Description("Date widget test")
+    public void dateWidgets() throws MalformedURLException {
+
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+
+        capabilities.setCapability("deviceName", "Emulator");
+        capabilities.setCapability("platformName", "Android");
+        capabilities.setCapability("fullReset", true);
+        capabilities.setCapability("settings[enableMultiWindows]", true);
+        capabilities.setCapability("app", "/Users/kirill/Downloads/ApiDemos-debug.apk");
+        capabilities.setCapability("autoGrantPermissions", true);
+
+        AndroidDriver driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4724/wd/hub"), capabilities);
+        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+
+        MobileElement viewsElement = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Views"));
+        viewsElement.click();
+
+        MobileElement dateWidgetsElement = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Date Widgets"));
+        dateWidgetsElement.click();
+
+        MobileElement dialogOption = (MobileElement) driver.findElement(MobileBy.AccessibilityId("1. Dialog"));
+        dialogOption.click();
+
+        MobileElement displayedDateTime = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/dateDisplay"));
+        String displayedDateTimeTextText = displayedDateTime.getText();
+
+        MobileElement changeDateButton = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/pickDate"));
+        changeDateButton.click();
+        MobileElement yearPickerButton = (MobileElement) driver.findElement(MobileBy.id("android:id/date_picker_header_year"));
+        yearPickerButton.click();
+//        new TouchAction(driver).press(PointOption.point(550, 800)).waitAction()
+//                .moveTo(PointOption.point(550, 60)).release().perform();
+        List<MobileElement> textViews = (List<MobileElement>) driver. findElements(MobileBy.className("android.widget.TextView"));
+        textViews.get(5).click();
+        MobileElement nextMonthButton = (MobileElement) driver.findElement(MobileBy.id("android:id/next"));
+        nextMonthButton.click();
+        List<MobileElement> daysOfMonth = (List<MobileElement>) driver.findElements(MobileBy.className("android.view.View"));
+        daysOfMonth.get(15).click();
+        MobileElement okButtonInPicker = (MobileElement) driver.findElement(MobileBy.id("android:id/button1"));
+        okButtonInPicker.click();
+
+//        MobileElement selectDayButton = (MobileElement) driver.findElement(MobileBy.className("android.view.View"));
 
 
-
-
-
+        MobileElement changeTimeButton = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/pickTime"));
+        List<MobileElement> radialPicker = (List<MobileElement>) driver
+                .findElements(MobileBy.className("android.widget.RadialTimePickerView$RadialPickerTouchHelper"));
+        MobileElement changeTimeButtonSpinner = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/pickTimeSpinner"));
+        
         driver.quit();
     }
 }
