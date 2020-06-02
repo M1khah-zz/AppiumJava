@@ -484,13 +484,13 @@ public class AppTest
         popupMenuElement.click();
 
         MobileElement makePopupButton = (MobileElement) driver.findElement(MobileBy.className("android.widget.Button"));
-        MobileElement toastMessage = (MobileElement) driver.findElement(MobileBy.className("android.widget.Toast"));
-        List<MobileElement> widgetOptions = (List<MobileElement>) driver.findElements(MobileBy.className("android.widget.TextView"));
+        makePopupButton.click();
+        MobileElement widgetAdd = (MobileElement) driver.findElement(MobileBy.className("android.widget.ListView"));
+        widgetAdd.click();
+        MobileElement toastMessage = (MobileElement) driver.findElement(MobileBy.xpath("/hierarchy/android.widget.Toast"));
         String toastText = toastMessage.getText();
 
-        makePopupButton.click();
-        widgetOptions.get(0).click();
-        assertThat(toastText, containsString("Search"));
+        assertThat(toastText, containsString("Add"));
 
         driver.quit();
     }
