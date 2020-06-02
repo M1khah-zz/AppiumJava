@@ -670,24 +670,48 @@ public class AppTest
         MobileElement displayedDateTime = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/dateDisplay"));
         String displayedDateTimeTextText = displayedDateTime.getText();
 
+        String dateBeforeChange = displayedDateTimeTextText;
         MobileElement changeDateButton = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/pickDate"));
         changeDateButton.click();
         MobileElement yearPickerButton = (MobileElement) driver.findElement(MobileBy.id("android:id/date_picker_header_year"));
         yearPickerButton.click();
         List<MobileElement> textViews = (List<MobileElement>) driver. findElements(MobileBy.className("android.widget.TextView"));
-        textViews.get(5).click();
+        textViews.get(7).click();
         MobileElement nextMonthButton = (MobileElement) driver.findElement(MobileBy.id("android:id/next"));
         nextMonthButton.click();
         List<MobileElement> daysOfMonth = (List<MobileElement>) driver.findElements(MobileBy.className("android.view.View"));
         daysOfMonth.get(15).click();
         MobileElement okButtonInPicker = (MobileElement) driver.findElement(MobileBy.id("android:id/button1"));
         okButtonInPicker.click();
+        MobileElement displayedDateTimeNew = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/dateDisplay"));
+        String displayedDateTimeTextTextNew = displayedDateTimeNew.getText();
+        String dateAfterChange = displayedDateTimeTextTextNew;
+        assertThat(dateAfterChange, is(not(equalTo(dateBeforeChange))));
 
-
+        MobileElement displayedTimeBefore = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/dateDisplay"));
+        String timeBefore = displayedTimeBefore.getText();
         MobileElement changeTimeButton = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/pickTime"));
+        changeTimeButton.click();
         List<MobileElement> radialPicker = (List<MobileElement>) driver
                 .findElements(MobileBy.className("android.widget.RadialTimePickerView$RadialPickerTouchHelper"));
+        radialPicker.get(6).click();
+        radialPicker.get(6).click();
+        okButtonInPicker.click();
+        MobileElement displayedTimeAfter = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/dateDisplay"));
+        String timeAfter = displayedTimeAfter.getText();
+        assertThat(timeAfter, is(not(equalTo(timeBefore))));
+
+
+
         MobileElement changeTimeButtonSpinner = (MobileElement) driver.findElement(MobileBy.id("io.appium.android.apis:id/pickTimeSpinner"));
+        changeTimeButtonSpinner.click();
+        new TouchAction(driver).press(PointOption.point(520, 800)).waitAction()
+                .moveTo(PointOption.point(520, 60)).release().perform();
+        new TouchAction(driver).press(PointOption.point(350, 800)).waitAction()
+                .moveTo(PointOption.point(350, 60)).release().perform();
+        MobileElement okButtonInSpinner = (MobileElement) driver.findElement(MobileBy.id("android:id/button1"));
+        okButtonInSpinner.click();
+
 
         driver.quit();
     }
